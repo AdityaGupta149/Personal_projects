@@ -1,0 +1,80 @@
+#include<stdio.h>
+#include<math.h>
+float add( float num1, float num2){
+    float sum= num1+num2;
+    return sum;
+}
+float sub( float num1, float num2){
+    float diference= num1-num2;
+    return diference;
+}
+float mul( float num1, float num2){
+    float mul= num1*num2;
+    return mul;
+}
+float divide( float num1, float num2){
+    if(num2==0){
+        printf("Denominator value cannot be 0");
+        return 0;
+    }
+    float divide= num1/num2;
+    return divide; 
+}
+int modulus( int num1, int num2){
+    if(num2==0){
+        printf("Denominator value cannot be 0");
+        return 0;
+    }
+    int mod= num1 % num2;
+    return mod;
+}
+double power(double num1,double num2){
+    return pow(num1,num2);
+}
+int main(){
+    int num1, num2;
+    int number; double result;
+    
+    for(;;){
+    printf("--------------------\n");
+    printf("Enter the operation you want to do: \n");
+    printf("1. Addition\n");
+    printf("2. Subtraction\n");
+    printf("3. Multiply\n");
+    printf("4. Divide\n");
+    printf("5. Modulus\n");
+    printf("6. Power\n");
+    printf("7. Exit\n");
+    printf("Choose the operation number ");
+    scanf("%d",&number);
+    if(number == 7){
+        break;
+    }
+    if(number<1|| number>7){
+        printf("invalid choice\n");
+        continue;
+    }
+    printf("Enter the first number: ");
+    scanf("%d",&num1);
+    printf("Enter the second number: ");
+    scanf("%d",&num2);
+    
+    if(number==1){
+        result=add(num1,num2);
+    } else if(number==2){
+        result=sub(num1,num2);
+    } else if(number==3){
+        result=mul(num1,num2);
+    } else if(number==4){
+        result=divide(num1,num2);
+    } else if(number==5){
+        result=modulus(num1,num2);
+    } else if(number==6){
+        result=power(num1,num2);
+    } else{
+        continue;
+    }
+    printf("%.2lf\n", result);
+    }
+    return 0;
+}
