@@ -1,0 +1,189 @@
+## FOOD ORDERING SYSTEM 
+import numpy as np
+import matplotlib.pyplot as plt
+
+total_bill = 0
+bill_items = []  # storing food items for graph representation
+bill_amounts = []  # storing their amount for graph
+
+class MenuItems():
+    def pizza():
+        global total_bill
+        total_order = []
+        nonveg_choices = ["Chicken pepperoni", "Chicken tikka", "Chicken sausage", "Chicken tikka masala", "Pepper chicken",
+                        "BBQ chicken", "Peri peri chicken", "Tandoori chicken"]
+        veg_choices = ["margherita pizza", "cheese and corn", "veggie fresh", "peppy paneer", "double cheese margherita",
+                    "farm fresh pizza", "spicy paneer pizza", "mushroom pizza", "jalapeno and onion pizza"]
+        s = ["", "regular", "medium", "large"]
+        print("Welcome to PIZZA ORDER services")
+
+        while True:
+            print("\nTaking order for pizza")
+
+            print("\nDisplay price amount:")
+            print(" veg/non-veg | regular | medium | large ")
+            print(" veg         |  100rs  |  150rs | 200rs")
+            print(" non-veg     |  200rs  |  250rs | 300rs")
+            print("Would you like to have regular, medium, or large pizza")
+            size_preference = int(input("Please enter your size preference: regular(1), medium(2), large(3): "))
+
+            print("\nWould you like to have veg pizza or non-veg pizza")
+            choice = input("Please enter your choice [veg/non-veg] for pizza: ")
+            if choice == "non-veg":
+                print("\nNon-vegetarian options are:")
+                for i in range(len(nonveg_choices)):
+                    print(i + 1, ".", nonveg_choices[i])
+            elif choice == "veg":
+                print("\nVegetarian options are:")
+                for i in range(len(veg_choices)):
+                    print(i + 1, ".", veg_choices[i])
+            else:
+                print("Invalid input")
+                continue
+
+            y = int(input("\nPlease enter the serial number of your choice: "))
+
+            print("\nWhich base do you prefer: wheat base, whole wheat (maida), multi-grain ")
+            print("Base          |   Amount")
+            print("wheat         |    30rs")
+            print("whole wheat   |    10rs")
+            print("multi grain   |    50rs")
+            base = input("Enter the base you would like to have: ").lower()
+
+            q = 1
+            while True:
+                n = input("Would you like to reorder the current pizza selection?[y/n]: ")
+                if n.lower() == "y":
+                    q = int(input("Enter the quantity: "))
+                    break
+                elif n.lower() == "n":
+                    break
+                else:
+                    print("Invalid input")
+                    continue
+
+            order = [size_preference, choice, y, base]
+            total_order.extend([order] * q)
+
+            if input("Would you like to order more pizzas? [y/n]: ").lower() != "y":
+                break
+
+        # Calculating the bill
+        for item in total_order:
+            size = item[0]
+            choice = item[1]
+            base = item[3]
+
+            if choice == "veg":
+                if size == 1:
+                    total_bill += 100
+                elif size == 2:
+                    total_bill += 150
+                elif size == 3:
+                    total_bill += 200
+            elif choice == "non-veg":
+                if size == 1:
+                    total_bill += 200
+                elif size == 2:
+                    total_bill += 250
+                elif size == 3:
+                    total_bill += 300
+
+            total_bill += {"wheat": 30, "whole wheat": 10, "multi grain": 50}[base]
+
+        print("\nYour pizza order is:\n")
+        c = 1
+        for i in total_order:
+            if i[1] == "veg":
+                print(c, ".", veg_choices[i[2] - 1], "with base", i[3], "of size", s[i[0]])
+                bill_items.append(veg_choices[i[2] - 1])
+                bill_amounts.append(total_bill)
+            if i[1] == "non-veg":
+                print(c, ".", nonveg_choices[i[2] - 1], "with base", i[3], "of size", s[i[0]])
+                bill_items.append(nonveg_choices[i[2] - 1])
+                bill_amounts.append(total_bill)
+            c += 1
+
+
+    def burger():
+        global total_bill
+        nonveg_choices = ["Double cheese chicken", "Double chicken patty", "Nonveg crisper", "Nonveg Maharaja"]
+        veg_choices = ["Double cheese", "Aloo Tikki", "Double aloo tikki ", "Veg crisper", "Veg Maharaja"]
+
+        print("Welcome to BURGER ORDER services")
+
+        nop = int(input("Enter the number of burgers to order: "))
+        total_order = []
+        for j in range(nop):
+            print("\nTaking order for burger number ", j + 1)
+
+            print("\nWould you like to have veg burger or non veg burger")
+            choice = input("Please enter your choice [veg/non-veg] for burger number: ")
+            if choice == "non-veg":
+                print("\nNon-vegetarian options are:")
+                for i in range(len(nonveg_choices)):
+                    print(i + 1, ".", nonveg_choices[i])
+            elif choice == "veg":
+                print("\nVegetarian options are:")
+                for i in range(len(veg_choices)):
+                    print(i + 1, ".", veg_choices[i])
+            else:
+                print("Invalid input")
+
+            y = int(input("\nPlease enter the serial number of your choice "))
+
+            total_order.append([choice, y])
+
+        print("\nYour order is:\n")
+        for item in total_order:
+            if item[0] == "veg":
+                print(veg_choices[item[1] - 1])
+                bill_items.append(veg_choices[item[1] - 1])
+                bill_amounts.append(total_bill)
+            elif item[0] == "non-veg":
+                print(nonveg_choices[item[1] - 1])
+                bill_items.append(nonveg_choices[item[1] - 1])
+                bill_amounts.append(total_bill)
+
+        total_bill += np.sum(np.array(total_order)[:, 0] == "veg") * 50
+        total_bill += np.sum(np.array(total_order)[:, 0] == "non-veg") * 100
+
+
+
+
+print("┌────────────────────•✧•────────────────────┐")
+print("         WELCOME TO FOOD ORDERING SYSTEM      ")
+print("└────────────────────•✧• ───────────────────┘")
+
+food_items = {"Pizza       ": "customized", "Burger      ": "customized", "Samosa      ": 15, "Momos       ": 30, "Omelette    ": 25,
+              "Fried Rice  ": 65, "Egg Roll    ": 30, "Chicken Roll": 85}
+loop = 'y'
+while loop == 'y':
+    c = 1  
+    print("S.no"," Item ","        Price")
+    for i in food_items.keys():
+        print( c, " | " , i,"|", food_items[i])
+        c += 1
+    n = int(input("\nEnter the serial number of your order: "))
+    if n == 1:
+        MenuItems.pizza()
+    elif n == 2:
+        MenuItems.burger()
+    elif 3 <= n <= 8:
+        q = int(input("Enter quantity: "))
+        total_bill += food_items[list(food_items.keys())[n - 1]] * q
+        bill_items.append(list(food_items.keys())[n - 1])
+        bill_amounts.append(total_bill)
+    else:
+        print("Invalid input")
+    loop = input("\nDo you want to add another item? [y/n]: ").lower()
+
+print("\nYOUR TOTAL BILL IS:", total_bill, "rs")
+print("Thank you for ordering.\nYour order will be delivered soon.\nHAVE A NICE DAY.....")
+
+# Visualizing the proportion of different food items in the total bill using a pie chart
+plt.figure(figsize=(8, 8))
+plt.pie(bill_amounts, labels=bill_items, autopct='%1.1f%%', startangle=140)
+plt.axis('equal')
+plt.title('Proportion of Food Items in Total Bill')
+plt.show()
